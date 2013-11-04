@@ -2,6 +2,7 @@
 __author__ = 'monk-ee'
 
 import yaml
+import cherrypy
 import boto.ec2
 from boto.vpc import VPCConnection
 
@@ -36,7 +37,8 @@ vpc_status_list = conn.get_all_vpcs(None, filter)
 #print type(vpc_status_list)
 
 for vpc in vpc_status_list:
-    print vpc.id
+    for tag,value in vpc.tags.items():
+        print tag+ " value: "+value
     subnet_filter =  [('vpcId',vpc.id)]
     vpc_subnets_list = conn.get_all_subnets(None, subnet_filter)
     print vpc_subnets_list
